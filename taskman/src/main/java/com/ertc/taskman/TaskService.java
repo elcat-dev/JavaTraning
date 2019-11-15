@@ -20,6 +20,15 @@ public class TaskService {
         }
     }
 
+    public Task findTaskById(Long id){
+        for (Task listTask: repository.getTasks()) {
+            if(id.equals(listTask.getId())){
+                return listTask;
+            }
+        }
+        throw new NoSuchTaskException("No Such Task");
+    }
+
     public void printTaskRep(){
         System.out.println("Task Repository: " + repository.getTitle() + " ( size = " + repository.getTasks().size() + " )");
         for (Task taskArr: repository.getTasks()) {
@@ -29,7 +38,7 @@ public class TaskService {
 
     public void delTask(Long id){
         try {
-            repository.getTasks().remove(repository.findTaskById(id));
+            repository.getTasks().remove(findTaskById(id));
             System.out.println("Task id = " + id + " deleted");
         } catch (NoSuchTaskException e) {
             System.out.println("Task not deleted: " + e.toString());
@@ -38,7 +47,9 @@ public class TaskService {
 
     public void updTask(long id, String name, String executor, String description, Task.Status status){
         try {
-            repository.updTask(id, name, executor, description, status);
+            Task uTask = findTaskById(id);
+            uTask.updTask(name, executor, description, status);
+            repository.updTask(uTask);
         } catch (NoSuchTaskException e) {
             System.out.println("Task not updated: " + e.toString());
         }

@@ -32,12 +32,16 @@ public class MainApp {
 
         service.printTaskRep();
 
+        System.out.println("del task true");
         service.delTask(7L);
+        System.out.println("del task false");
         service.delTask(23L);
 
         service.printTaskRep();
 
+        System.out.println("upd task false");
         service.updTask(222L, "not", "not", "not", Task.Status.CLOSE);
+        System.out.println("upd task true");
         service.updTask(9L, "upd t010", "Vovka", "sleep", Task.Status.CLOSE);
 
         service.printTaskRep();

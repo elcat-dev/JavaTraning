@@ -63,16 +63,6 @@ public class TaskRepository implements RepService{
         return false;
     }
 
-    @Override
-    public Task findTaskById(Long id){
-        for (Task listTask: tasks) {
-            if(id.equals(listTask.getId())){
-                return listTask;
-            }
-        }
-        throw new NoSuchTaskException("No Such Task");
-    }
-
     private int findIndexByTaskId(Long id){
         for (int i = 0; i < tasks.size() ; i++) {
             if(id.equals(tasks.get(i).getId())){
@@ -83,10 +73,8 @@ public class TaskRepository implements RepService{
     }
 
     @Override
-    public boolean updTask(long id, String name, String executor, String description, Task.Status status){
-        Task uTask = this.findTaskById(id);
-        int indexTask = this.findIndexByTaskId(id);
-        uTask.updTask(name, executor, description, status);
+    public boolean updTask(Task uTask){
+        int indexTask = this.findIndexByTaskId(uTask.getId());
         tasks.set(indexTask, uTask);
         return true;
     }
