@@ -4,15 +4,21 @@ import java.util.Objects;
 
 public class Task {
     public enum Status {
-        CREATED("Created"), CLOSE("Close"), REJECTED("Rejected");
+        CREATED("Created", 1)
+        ,CLOSE("Close", 2)
+        ,REJECTED("Rejected", 3);
 
         private String engTitle;
+        private int index;
 
         public String getEngTitle() {
             return engTitle;
         }
 
-        Status(String engTitle) {
+        public int getIndex() { return index; };
+
+        Status(String engTitle, int index) {
+            this.index = index;
             this.engTitle = engTitle;
         }
     }
@@ -42,6 +48,10 @@ public class Task {
 
     public String getName() {
         return name;
+    }
+
+    public Status getStatus() {
+        return status;
     }
 
     @Override
@@ -87,4 +97,9 @@ public class Task {
         this.description = description;
         this.status = status;
     }
+
+    public boolean comparator(Task t1, Task t2){
+        return t1.status.equals(t2.status);
+    }
+
 }

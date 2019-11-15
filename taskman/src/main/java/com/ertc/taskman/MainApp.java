@@ -43,7 +43,22 @@ public class MainApp {
         service.updTask(222L, "not", "not", "not", Task.Status.CLOSE);
         System.out.println("upd task true");
         service.updTask(9L, "upd t010", "Vovka", "sleep", Task.Status.CLOSE);
+        service.updTask(26, "upd t010", "Vovka", "sleep", Task.Status.CLOSE);
+        service.updTask(4, "upd t010", "Vovka", "sleep", Task.Status.REJECTED);
+        service.updTask(5, "upd t010", "Vovka", "sleep", Task.Status.REJECTED);
+        service.updTask(6, "upd t010", "Vovka", "sleep", Task.Status.REJECTED);
 
         service.printTaskRep();
+        System.out.println("get task by status");
+        service.getTaskByStatus(Task.Status.CLOSE);
+
+        System.out.println("get Count task by status");
+        service.getCountTaskByStatus(Task.Status.CLOSE);
+
+        System.out.println("exists task by id = 4 : " + service.isTaskExistsById(4L));
+        System.out.println("exists task by id = 404 : " + service.isTaskExistsById(404L));
+
+        System.out.println("sorted by status");
+        service.getTaskOrderByStatus();
     }
 }

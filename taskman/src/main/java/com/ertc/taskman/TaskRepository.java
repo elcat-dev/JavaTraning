@@ -46,7 +46,7 @@ public class TaskRepository implements RepService{
     }
 
     private boolean addTaskExc(Task task){
-        if(tasks.size() == 10){
+        if(tasks.size() == 20){
             throw new RepositorySpaceException("Repository Full");
         }
         tasks.add(task);

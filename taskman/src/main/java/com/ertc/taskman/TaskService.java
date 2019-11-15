@@ -53,7 +53,30 @@ public class TaskService {
         } catch (NoSuchTaskException e) {
             System.out.println("Task not updated: " + e.toString());
         }
+    }
 
+    public void getTaskByStatus(Task.Status status){
+        repository.getTasks().stream()
+                .filter(t -> t.getStatus() == status)
+                .forEach(System.out::println);
+    }
+
+    public boolean isTaskExistsById(Long id){
+        return repository.getTasks().stream().anyMatch(t -> t.getId() == id);
+    }
+
+    public void getTaskOrderByStatus(){
+        repository.getTasks().stream()
+                .sorted((t1, t2) -> t1.getStatus().getIndex() - t2.getStatus().getIndex() )
+                .forEach(System.out::println);
+    }
+
+    public void getCountTaskByStatus(Task.Status status){
+        System.out.println(
+                repository.getTasks().stream()
+                        .filter(t -> t.getStatus() == status)
+                        .count()
+        );
     }
 
 }
