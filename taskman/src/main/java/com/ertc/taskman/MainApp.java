@@ -60,5 +60,29 @@ public class MainApp {
 
         System.out.println("sorted by status");
         service.getTaskOrderByStatus();
+
+        System.out.println("Export tasks from " + ((TaskRepository) repository).getTitle());
+        //Long[] arrId = new Long[]{};
+        Long[] arrId = new Long[]{4L, 5L};
+        service.exportTasks(arrId);
+
+        System.out.println("del task true");
+        service.delTask(4L);
+        System.out.println("upd task false");
+        service.updTask(5L, "upd v2 t010", "Vovka", "sldhs csdhcbshbce", Task.Status.REJECTED);
+
+        service.printTaskRep();
+
+        System.out.println("Import tasks in " + ((TaskRepository) repository).getTitle());
+        service.importTasks(arrId);
+
+        service.printTaskRep();
+
+        RepService repository2 = new TaskRepository("Rep 2");
+        TaskService service2 = new TaskService((TaskRepository) repository2);
+        System.out.println("Import tasks in " + ((TaskRepository) repository2).getTitle());
+        arrId = new Long[]{};
+        service2.importTasks(arrId);
+        service2.printTaskRep();
     }
 }

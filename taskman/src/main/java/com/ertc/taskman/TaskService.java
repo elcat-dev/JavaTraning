@@ -1,8 +1,12 @@
 package com.ertc.taskman;
 
+import com.ertc.taskman.exceptions.DirectoryIsEmptyException;
 import com.ertc.taskman.exceptions.NoSuchTaskException;
 import com.ertc.taskman.exceptions.RepositorySpaceException;
 import com.ertc.taskman.exceptions.TaskAlreadyExistsException;
+
+import java.io.*;
+import java.util.List;
 
 public class TaskService {
     private TaskRepository repository;
@@ -77,6 +81,55 @@ public class TaskService {
                         .filter(t -> t.getStatus() == status)
                         .count()
         );
+    }
+
+    private boolean checkInOutTask(Long[] arrId, Long taskId){
+        boolean check  = (arrId.length == 0);
+        if(!check) {
+            for (int i = 0; i < arrId.length; i++) {
+                if(arrId[i].equals(taskId)) {
+                    return true;
+                }
+            }
+        }
+        return check;
+    }
+
+    public void exportTasks(Long[] arrId){
+        for (Task taskArr: repository.getTasks()) {
+            if(checkInOutTask(arrId, taskArr.getId())){
+                try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("task_storage/" + taskArr.getId()))){
+                    out.writeObject(taskArr);
+                    System.out.println("file '" + taskArr.getId() + "' saved");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void importTasks(Long[] arrId){
+        File taskStorage = new File("task_storage");
+        if(taskStorage.list().length == 0){
+            throw new DirectoryIsEmptyException("The task store is empty");
+        }
+        for (String fileName: taskStorage.list()) {
+            if(checkInOutTask(arrId, Long.parseLong(fileName))){
+                try (ObjectInputStream in = new ObjectInputStream(new FileInputStream("task_storage/" + fileName))){
+                    Task taskIn = (Task) in.readObject();
+                    if(isTaskExistsById(taskIn.getId())){
+                        updTask(taskIn.getId(), taskIn.getName(), taskIn.getExecutor(), taskIn.getDescription(), taskIn.getStatus());
+                        System.out.println("task '" + taskIn.getId() + "' updated from file");
+                    }
+                    else {
+                        addTask(taskIn);
+                        System.out.println("task '" + taskIn.getId() + "' loaded from file");
+                    }
+                } catch (IOException | ClassNotFoundException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
     }
 
 }

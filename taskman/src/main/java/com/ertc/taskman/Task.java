@@ -1,8 +1,11 @@
 package com.ertc.taskman;
 
+import java.io.Serializable;
 import java.util.Objects;
 
-public class Task {
+public class Task implements Serializable {
+    private static final long serialVersionUID = 4224055084185265651L;
+
     public enum Status {
         CREATED("Created", 1)
         ,CLOSE("Close", 2)
@@ -52,6 +55,14 @@ public class Task {
 
     public Status getStatus() {
         return status;
+    }
+
+    public String getExecutor() {
+        return executor;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     @Override
