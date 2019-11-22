@@ -1,5 +1,7 @@
 package com.ertc.taskman;
 
+import java.sql.*;
+
 public class MainApp {
     public static void main(String[] args) {
         RepService repository = new TaskRepository("Rep 1");
@@ -84,5 +86,6 @@ public class MainApp {
         arrId = new Long[]{};
         service2.importTasks(arrId);
         service2.printTaskRep();
+
     }
 }

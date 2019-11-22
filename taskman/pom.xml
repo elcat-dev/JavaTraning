@@ -24,4 +24,14 @@
         <mavin.compiler.source>1.8</mavin.compiler.source>
         <mavin.compiler.target>1.8</mavin.compiler.target>
     </properties>
+
+    <dependencies>
+        <!-- https://mvnrepository.com/artifact/oracle/oracle-jdbc -->
+        <dependency>
+            <groupId>com.oracle</groupId>
+            <artifactId>oracle-jdbc</artifactId>
+            <version>12.1.0.2</version>
+        </dependency>
+
+    </dependencies>
 </project>
