@@ -1,8 +1,11 @@
 package com.ertc.taskman;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tasks_hnt")
 public class Task implements Serializable {
     private static final long serialVersionUID = 4224055084185265651L;
 
@@ -26,11 +29,19 @@ public class Task implements Serializable {
         }
     }
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "task_id")
     private Long id;
+    @Column(name = "t_name")
     private String name;
+    @Column(name = "t_owner")
     private String owner;
+    @Column(name = "t_executor")
     private String executor;
+    @Column(name = "t_description")
     private String description;
+    @Column(name = "t_status")
     private Status status;
 
     public Task(){
