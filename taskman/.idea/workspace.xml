@@ -2,9 +2,20 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="71fac717-5b10-497e-9fa2-05433ba0c503" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/Repository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/RepositoryBd.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/target/classes/META-INF/taskman.kotlin_module" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/MainApp.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/MainApp.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/RepService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/RepService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/Task.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/Task.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/TaskRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/TaskRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/TaskService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/ertc/taskman/TaskService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ertc/taskman/MainApp.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ertc/taskman/MainApp.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ertc/taskman/RepService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ertc/taskman/RepService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ertc/taskman/Task.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ertc/taskman/Task.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ertc/taskman/TaskRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ertc/taskman/TaskRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/ertc/taskman/TaskService.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/ertc/taskman/TaskService.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />

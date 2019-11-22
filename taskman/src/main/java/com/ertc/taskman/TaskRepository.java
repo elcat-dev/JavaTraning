@@ -6,7 +6,7 @@ import com.ertc.taskman.exceptions.TaskAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskRepository implements RepService{
+public class TaskRepository extends Repository{
     private String title;
     private List<Task> tasks;
 
@@ -14,6 +14,7 @@ public class TaskRepository implements RepService{
         return title;
     }
 
+    @Override
     public List<Task> getTasks() {
         return tasks;
     }
@@ -22,8 +23,7 @@ public class TaskRepository implements RepService{
         prepare(title);
     }
 
-    @Override
-    public void prepare(String title){
+    private void prepare(String title){
         this.title = title;
         this.tasks = new ArrayList<>();
     }

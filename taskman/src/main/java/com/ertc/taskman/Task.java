@@ -102,10 +102,31 @@ public class Task implements Serializable {
                 '}';
     }
 
+    public String toStringInBd(){
+        return id + ", '"
+                + name + "', '"
+                + owner + "', '"
+                + executor + "', '"
+                + description + "', '"
+                + status.engTitle + "'";
+    }
+
+    public String toStringUpdBd(){
+        return "name = '" + name + "'"
+                + ",owner = '" + owner + "'"
+                + ",executor = '" + executor + "'"
+                + ",description = '" + description + "'"
+                + ",status = '" + status.getEngTitle() + "'";
+    }
+
     public void updTask(String name, String executor, String description, Task.Status status){
         this.name = name;
         this.executor = executor;
         this.description = description;
+        this.status = status;
+    }
+
+    public void updTaskStatus(Task.Status status){
         this.status = status;
     }
 

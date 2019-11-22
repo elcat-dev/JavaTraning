@@ -87,5 +87,21 @@ public class MainApp {
         service2.importTasks(arrId);
         service2.printTaskRep();
 
+        System.out.println("database");
+        RepService repositoryBd = new RepositoryBd();
+        TaskService serviceBd = new TaskService((Repository) repositoryBd);
+
+        System.out.println("add task");
+        serviceBd.addTask(task001);
+        serviceBd.addTask(task002);
+
+        System.out.println("get tasks");
+        serviceBd.printTaskRep();
+
+        System.out.println("upd task");
+        serviceBd.updTask(1, "upd t001", "Oleg", "WWWork", Task.Status.REJECTED);
+
+        serviceBd.printTaskRep();
+
     }
 }

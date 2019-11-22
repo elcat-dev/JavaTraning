@@ -8,10 +8,10 @@ import com.ertc.taskman.exceptions.TaskAlreadyExistsException;
 import java.io.*;
 import java.util.List;
 
-public class TaskService {
-    private TaskRepository repository;
+public class TaskService<T extends Repository> {
+    private T repository;
 
-    public TaskService(TaskRepository repository) {
+    public TaskService(T repository) {
         this.repository = repository;
     }
 
