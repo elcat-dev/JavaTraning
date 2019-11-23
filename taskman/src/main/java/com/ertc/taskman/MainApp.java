@@ -1,9 +1,13 @@
 package com.ertc.taskman;
 
-import java.sql.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.cfg.Configuration;
+import java.util.Scanner;
 
 public class MainApp {
     public static void main(String[] args) {
+        /*
         RepService repository = new TaskRepository("Rep 1");
         TaskService service = new TaskService((TaskRepository) repository);
 
@@ -86,6 +90,45 @@ public class MainApp {
         arrId = new Long[]{};
         service2.importTasks(arrId);
         service2.printTaskRep();
+
+         */
+
+        ///
+        Scanner scanner = new Scanner(System.in);
+
+        SessionFactory factory = new Configuration()
+                .configure("config/oracle.cfg.xml")
+                .buildSessionFactory();
+
+        Session session = null;
+
+        try {
+
+            //  insert
+            Task task021 = new Task("t021", "Vovka", "Ivan", "Testing");
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            session.persist(task021);
+            session.getTransaction().commit();
+            System.out.println("ok");
+
+            /*
+            // update
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            Task task022 = session.get(Task.class, 2001L);
+            System.out.println(task022);
+            task022.updTask("upd t021", "Vovka", "testinggg", Task.Status.CREATED);
+            session.getTransaction().commit();
+            System.out.println("ok");
+             */
+        } finally {
+            session.close();
+            factory.close();
+            if (session != null) {
+                session.close();
+            }
+        }
 
     }
 }

@@ -42,13 +42,15 @@ public class Task implements Serializable {
     @Column(name = "t_description")
     private String description;
     @Column(name = "t_status")
+    @Enumerated(EnumType.STRING)
     private Status status;
 
     public Task(){
     }
 
-    public Task(long id, String name, String owner, String executor, String description) {
-        this.id = id;
+    //public Task(long id, String name, String owner, String executor, String description) {
+    public Task(String name, String owner, String executor, String description) {
+        //this.id = id;
         this.name = name;
         this.owner = owner;
         this.executor = executor;

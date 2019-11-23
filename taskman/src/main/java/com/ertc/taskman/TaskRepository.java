@@ -38,7 +38,8 @@ public class TaskRepository implements RepService{
 
     @Override
     public boolean addTask(long id, String name, String owner, String executor, String description){
-        Task task = new Task(id, name, owner, executor, description);
+        //Task task = new Task(id, name, owner, executor, description);
+        Task task = new Task(name, owner, executor, description);
         if( !isTaskExists(task) ){
             return addTaskExc(task);
         }
