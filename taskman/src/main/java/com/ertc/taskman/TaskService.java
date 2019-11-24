@@ -24,63 +24,40 @@ public class TaskService {
         }
     }
 
-    public Task findTaskById(Long id){
-        for (Task listTask: repository.getTasks()) {
-            if(id.equals(listTask.getId())){
-                return listTask;
-            }
-        }
-        throw new NoSuchTaskException("No Such Task");
-    }
-
     public void printTaskRep(){
-        System.out.println("Task Repository: " + repository.getTitle() + " ( size = " + repository.getTasks().size() + " )");
         for (Task taskArr: repository.getTasks()) {
             System.out.println(taskArr.toString());
         }
     }
 
     public void delTask(Long id){
-        try {
-            repository.getTasks().remove(findTaskById(id));
-            System.out.println("Task id = " + id + " deleted");
-        } catch (NoSuchTaskException e) {
-            System.out.println("Task not deleted: " + e.toString());
+        boolean checkDel = repository.delTaskById(id);
+        System.out.print("Task id = " + id + " ");
+        if (!checkDel) {
+            System.out.print("not ");
         }
+        System.out.print("deleted");
     }
 
     public void updTask(long id, String name, String executor, String description, Task.Status status){
-        try {
-            Task uTask = findTaskById(id);
-            uTask.updTask(name, executor, description, status);
-            repository.updTask(uTask);
-        } catch (NoSuchTaskException e) {
-            System.out.println("Task not updated: " + e.toString());
+        Task uTask = repository.getTasksById(id);
+        uTask.updTask(name, executor, description, status);
+        boolean checkUpd = repository.updTask(uTask);
+        if (checkUpd) {
+            System.out.println("Task id = " + id + " updated");
+        }
+        else {
+            throw new NoSuchTaskException("task id = " + id + " not updated");
         }
     }
 
     public void getTaskByStatus(Task.Status status){
-        repository.getTasks().stream()
-                .filter(t -> t.getStatus() == status)
+        repository.getTaskByStatus(status).stream()
                 .forEach(System.out::println);
     }
 
     public boolean isTaskExistsById(Long id){
-        return repository.getTasks().stream().anyMatch(t -> t.getId() == id);
-    }
-
-    public void getTaskOrderByStatus(){
-        repository.getTasks().stream()
-                .sorted((t1, t2) -> t1.getStatus().getIndex() - t2.getStatus().getIndex() )
-                .forEach(System.out::println);
-    }
-
-    public void getCountTaskByStatus(Task.Status status){
-        System.out.println(
-                repository.getTasks().stream()
-                        .filter(t -> t.getStatus() == status)
-                        .count()
-        );
+        return repository.isTaskExistsById(id);
     }
 
     private boolean checkInOutTask(Long[] arrId, Long taskId){

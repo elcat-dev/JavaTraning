@@ -3,80 +3,155 @@ package com.ertc.taskman;
 import com.ertc.taskman.exceptions.NoSuchTaskException;
 import com.ertc.taskman.exceptions.RepositorySpaceException;
 import com.ertc.taskman.exceptions.TaskAlreadyExistsException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
+import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TaskRepository implements RepService{
-    private String title;
-    private List<Task> tasks;
+public class TaskRepository {
 
-    public String getTitle() {
-        return title;
+    public Task getTasksById(Long id) {
+        Session session = null;
+        Task task;
+        try {
+            SessionFactory factory = GetFactory.getInstance().getFactory();
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            task = (Task) session
+                    .createQuery("SELECT t FROM Task t WHERE t.id = :id")
+                    .setParameter("id", id)
+                    .getSingleResult();
+        }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return task;
     }
 
-    public List<Task> getTasks() {
+    public boolean isTaskExistsById(Long id) {
+        Session session = null;
+        Long checkExists;
+        try {
+            SessionFactory factory = GetFactory.getInstance().getFactory();
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            checkExists = (Long) session
+                    .createQuery("SELECT count(*) FROM Task t WHERE t.id = :id")
+                    .setParameter("id", id)
+                    .getSingleResult();
+        }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return checkExists > 0;
+    }
+
+    public List<Task> getTaskByStatus(Task.Status status){
+        Session session = null;
+        List<Task> tasks;
+        try {
+            SessionFactory factory = GetFactory.getInstance().getFactory();
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            tasks = session
+                    .createQuery("SELECT t FROM Task t WHERE t.status = :t_status")
+                    .setParameter("t_status", status)
+                    .getResultList();
+        }
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
         return tasks;
     }
 
-    public TaskRepository(String title) {
-        prepare(title);
-    }
-
-    @Override
-    public void prepare(String title){
-        this.title = title;
-        this.tasks = new ArrayList<>();
-    }
-
-    @Override
-    public boolean addTask(Task task){
-        if( !isTaskExists(task) ){
-            return addTaskExc(task);
+    public List<Task> getTasks() {
+        Session session = null;
+        List<Task> tasks;
+        try {
+            SessionFactory factory = GetFactory.getInstance().getFactory();
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            tasks = session
+                    .createQuery("SELECT t FROM Task t", Task.class)
+                    .getResultList();
         }
-        return false;
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
+        return tasks;
     }
 
-    @Override
-    public boolean addTask(long id, String name, String owner, String executor, String description){
-        //Task task = new Task(id, name, owner, executor, description);
-        Task task = new Task(name, owner, executor, description);
-        if( !isTaskExists(task) ){
+    public boolean addTask(Task task){
+        if( !isTaskExistsById(task.getId()) ){
             return addTaskExc(task);
         }
         return false;
     }
 
     private boolean addTaskExc(Task task){
-        if(tasks.size() == 20){
-            throw new RepositorySpaceException("Repository Full");
+        Session session = null;
+        try {
+            SessionFactory factory = GetFactory.getInstance().getFactory();
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            session.persist(task);
+            session.getTransaction().commit();
         }
-        tasks.add(task);
+        finally {
+            if (session != null) {
+                session.close();
+            }
+        }
         return true;
     }
 
-    @Override
-    public boolean isTaskExists(Task task){
-        for (Task listTask: tasks) {
-            if(listTask.equals(task)){
-                throw new TaskAlreadyExistsException("Task Already Exists");
+    public boolean updTask(Task task){
+        Session session = null;
+        Task uTask;
+        try {
+            SessionFactory factory = GetFactory.getInstance().getFactory();
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            uTask = (Task) session.merge(task);
+            session.getTransaction().commit();
+        }
+//        catch (NoResultException e){
+//            e.fillInStackTrace();
+//        }
+        finally {
+            if (session != null) {
+                session.close();
             }
         }
-        return false;
+        return uTask != null;
     }
 
-    private int findIndexByTaskId(Long id){
-        for (int i = 0; i < tasks.size() ; i++) {
-            if(id.equals(tasks.get(i).getId())){
-                return i;
+    public boolean delTaskById(Long id){
+        Session session = null;
+        int delCount = 0;
+        try {
+            SessionFactory factory = GetFactory.getInstance().getFactory();
+            session = factory.getCurrentSession();
+            session.beginTransaction();
+            delCount = session.createQuery("DELETE FROM Task t WHERE t.id = :id").setParameter("id", id).executeUpdate();
+//            session.delete(session.get(Task.class, id));
+            session.getTransaction().commit();
+        }
+        finally {
+            if (session != null) {
+                session.close();
             }
         }
-        throw new NoSuchTaskException("No Such Task");
-    }
-
-    @Override
-    public boolean updTask(Task uTask){
-        int indexTask = this.findIndexByTaskId(uTask.getId());
-        tasks.set(indexTask, uTask);
-        return true;
+        return delCount > 0;
     }
 }
