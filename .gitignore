@@ -1,1 +1,2 @@
-*.xml
+taskman/.idea/*
+taskman/target/classes/*
