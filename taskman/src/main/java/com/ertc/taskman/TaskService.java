@@ -1,7 +1,6 @@
 package com.ertc.taskman;
 
 import com.ertc.taskman.exceptions.DirectoryIsEmptyException;
-import com.ertc.taskman.exceptions.NoSuchTaskException;
 import com.ertc.taskman.exceptions.TaskAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
