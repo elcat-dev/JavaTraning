@@ -1,11 +1,12 @@
 package com.ertc.taskman;
 
-import java.sql.*;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
 public class MainApp {
     public static void main(String[] args) {
-        RepService repository = new TaskRepository("Rep 1");
-        TaskService service = new TaskService((TaskRepository) repository);
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(TaskManConfig.class);
+
+        TaskService service = context.getBean("taskService", TaskService.class);
 
         Task task001 = new Task(26, "t001", "Vovka", "Oleg", "Work");
         Task task002 = new Task(1, "t002", "Vovka", "Ivan", "Work");
@@ -41,8 +42,8 @@ public class MainApp {
 
         service.printTaskRep();
 
-        System.out.println("upd task false");
-        service.updTask(222L, "not", "not", "not", Task.Status.CLOSE);
+//        System.out.println("upd task false");
+//        service.updTask(222L, "not", "not", "not", Task.Status.CLOSE);
         System.out.println("upd task true");
         service.updTask(9L, "upd t010", "Vovka", "sleep", Task.Status.CLOSE);
         service.updTask(26, "upd t010", "Vovka", "sleep", Task.Status.CLOSE);
@@ -54,38 +55,25 @@ public class MainApp {
         System.out.println("get task by status");
         service.getTaskByStatus(Task.Status.CLOSE);
 
-        System.out.println("get Count task by status");
-        service.getCountTaskByStatus(Task.Status.CLOSE);
-
         System.out.println("exists task by id = 4 : " + service.isTaskExistsById(4L));
         System.out.println("exists task by id = 404 : " + service.isTaskExistsById(404L));
 
-        System.out.println("sorted by status");
-        service.getTaskOrderByStatus();
-
-        System.out.println("Export tasks from " + ((TaskRepository) repository).getTitle());
-        //Long[] arrId = new Long[]{};
-        Long[] arrId = new Long[]{4L, 5L};
-        service.exportTasks(arrId);
-
-        System.out.println("del task true");
-        service.delTask(4L);
-        System.out.println("upd task false");
-        service.updTask(5L, "upd v2 t010", "Vovka", "sldhs csdhcbshbce", Task.Status.REJECTED);
-
-        service.printTaskRep();
-
-        System.out.println("Import tasks in " + ((TaskRepository) repository).getTitle());
-        service.importTasks(arrId);
-
-        service.printTaskRep();
-
-        RepService repository2 = new TaskRepository("Rep 2");
-        TaskService service2 = new TaskService((TaskRepository) repository2);
-        System.out.println("Import tasks in " + ((TaskRepository) repository2).getTitle());
-        arrId = new Long[]{};
-        service2.importTasks(arrId);
-        service2.printTaskRep();
+//        System.out.println("Export tasks");
+//        Long[] arrId = new Long[]{};
+////        Long[] arrId = new Long[]{4L, 5L};
+//        service.exportTasks(arrId);
+//
+//        System.out.println("del task true");
+//        service.delTask(4L);
+//        System.out.println("upd task false");
+//        service.updTask(5L, "upd v2 t010", "Vovka", "sldhs csdhcbshbce", Task.Status.REJECTED);
+//
+//        service.printTaskRep();
+//
+//        System.out.println("Import tasks");
+//        service.importTasks(arrId);
+//
+//        service.printTaskRep();
 
     }
 }

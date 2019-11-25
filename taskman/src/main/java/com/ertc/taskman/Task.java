@@ -1,18 +1,26 @@
 package com.ertc.taskman;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
+@Entity
+@Table(name = "tasks_hnt")
 public class Task implements Serializable {
     private static final long serialVersionUID = 4224055084185265651L;
 
+    //@Entity
+    //@Table(name = "task_status")
     public enum Status {
         CREATED("Created", 1)
         ,CLOSE("Close", 2)
         ,REJECTED("Rejected", 3);
 
-        private String engTitle;
+        //@Id
+        //@Column(name = "id")
         private int index;
+        //@Column(name = "eng_title")
+        private String engTitle;
 
         public String getEngTitle() {
             return engTitle;
@@ -20,23 +28,38 @@ public class Task implements Serializable {
 
         public int getIndex() { return index; };
 
+        //Status(){
+        //}
+
         Status(String engTitle, int index) {
             this.index = index;
             this.engTitle = engTitle;
         }
     }
 
+    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)  - с этим не работает импорт
+    @Column(name = "task_id")
     private Long id;
+    @Column(name = "t_name")
     private String name;
+    @Column(name = "t_owner")
     private String owner;
+    @Column(name = "t_executor")
     private String executor;
+    @Column(name = "t_description")
     private String description;
+    //@OneToOne
+    //@JoinColumn(name = "status_id")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "t_status")
     private Status status;
 
     public Task(){
     }
 
     public Task(long id, String name, String owner, String executor, String description) {
+//    public Task(String name, String owner, String executor, String description) {
         this.id = id;
         this.name = name;
         this.owner = owner;
@@ -107,10 +130,6 @@ public class Task implements Serializable {
         this.executor = executor;
         this.description = description;
         this.status = status;
-    }
-
-    public boolean comparator(Task t1, Task t2){
-        return t1.status.equals(t2.status);
     }
 
 }
