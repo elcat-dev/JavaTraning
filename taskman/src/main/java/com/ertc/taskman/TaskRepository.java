@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.annotation.PostConstruct;
+import javax.persistence.NoResultException;
+import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -118,22 +120,18 @@ public class TaskRepository {
 
     public boolean updTask(Task task){
         Session session = null;
-        Task uTask;
         try {
             session = factory.getCurrentSession();
             session.beginTransaction();
-            uTask = (Task) session.merge(task);
+            session.merge(task);
             session.getTransaction().commit();
         }
-//        catch (NoResultException e){
-//            e.fillInStackTrace();
-//        }
         finally {
             if (session != null) {
                 session.close();
             }
         }
-        return uTask != null;
+        return true;
     }
 
     public boolean delTaskById(Long id){

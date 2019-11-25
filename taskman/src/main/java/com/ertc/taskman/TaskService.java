@@ -6,7 +6,9 @@ import com.ertc.taskman.exceptions.TaskAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.NoResultException;
 import java.io.*;
+import java.util.List;
 
 @Service
 public class TaskService {
@@ -42,14 +44,14 @@ public class TaskService {
     }
 
     public void updTask(long id, String name, String executor, String description, Task.Status status){
-        Task uTask = repository.getTasksById(id);
-        uTask.updTask(name, executor, description, status);
-        boolean checkUpd = repository.updTask(uTask);
-        if (checkUpd) {
+        try {
+            Task uTask = repository.getTasksById(id);
+            uTask.updTask(name, executor, description, status);
+            repository.updTask(uTask);
             System.out.println("Task id = " + id + " updated");
         }
-        else {
-            throw new NoSuchTaskException("task id = " + id + " not updated");
+        catch (NoResultException e){
+            System.out.println(e.getMessage());
         }
     }
 
