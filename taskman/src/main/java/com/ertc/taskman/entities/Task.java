@@ -1,44 +1,20 @@
-package com.ertc.taskman;
+package com.ertc.taskman.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table(name = "tasks_hnt")
+@Table(name = "tasks")
 public class Task implements Serializable {
     private static final long serialVersionUID = 4224055084185265651L;
 
-    //@Entity
-    //@Table(name = "task_status")
     public enum Status {
-        CREATED("Created", 1)
-        ,CLOSE("Close", 2)
-        ,REJECTED("Rejected", 3);
-
-        //@Id
-        //@Column(name = "id")
-        private int index;
-        //@Column(name = "eng_title")
-        private String engTitle;
-
-        public String getEngTitle() {
-            return engTitle;
-        }
-
-        public int getIndex() { return index; };
-
-        //Status(){
-        //}
-
-        Status(String engTitle, int index) {
-            this.index = index;
-            this.engTitle = engTitle;
-        }
+        CREATED, CLOSE, REJECTED
     }
 
     @Id
-//    @GeneratedValue(strategy = GenerationType.IDENTITY)  - с этим не работает импорт
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
     private Long id;
     @Column(name = "t_name")
@@ -58,14 +34,32 @@ public class Task implements Serializable {
     public Task(){
     }
 
-    public Task(long id, String name, String owner, String executor, String description) {
-//    public Task(String name, String owner, String executor, String description) {
-        this.id = id;
+    public Task(String name, String owner, String executor, String description) {
         this.name = name;
         this.owner = owner;
         this.executor = executor;
         this.description = description;
         this.status = Status.CREATED;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
+    public void setExecutor(String executor) {
+        this.executor = executor;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public long getId() {
@@ -74,6 +68,10 @@ public class Task implements Serializable {
 
     public String getName() {
         return name;
+    }
+
+    public String getOwner() {
+        return owner;
     }
 
     public Status getStatus() {
@@ -100,8 +98,7 @@ public class Task implements Serializable {
             return false;
         }
         Task task = (Task) obj;
-        return this.id.equals(task.id) &&
-                this.name.equals(task.name) &&
+        return this.name.equals(task.name) &&
                 this.owner.equals(task.owner) &&
                 this.executor.equals(task.executor) &&
                 this.description.equals(task.description) &&
@@ -110,7 +107,7 @@ public class Task implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, owner, executor, description, status);
+        return Objects.hash(name, owner, executor, description, status);
     }
 
     @Override
@@ -121,7 +118,7 @@ public class Task implements Serializable {
                 ", owner='" + owner + '\'' +
                 ", executor='" + executor + '\'' +
                 ", description='" + description + '\'' +
-                ", status='" + status.engTitle + '\'' +
+                ", status='" + status + '\'' +
                 '}';
     }
 

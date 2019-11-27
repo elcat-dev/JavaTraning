@@ -1,5 +1,6 @@
-package com.ertc.taskman;
+package com.ertc.taskman.repositories;
 
+import com.ertc.taskman.entities.Task;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,44 +38,6 @@ public class TaskRepository {
         return task;
     }
 
-    public boolean isTaskExistsById(Long id) {
-        Session session = null;
-        Long checkExists;
-        try {
-            session = factory.getCurrentSession();
-            session.beginTransaction();
-            checkExists = (Long) session
-                    .createQuery("SELECT count(*) FROM Task t WHERE t.id = :id")
-                    .setParameter("id", id)
-                    .getSingleResult();
-        }
-        finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return checkExists > 0;
-    }
-
-    public List<Task> getTaskByStatus(Task.Status status){
-        Session session = null;
-        List<Task> tasks;
-        try {
-            session = factory.getCurrentSession();
-            session.beginTransaction();
-            tasks = session
-                    .createQuery("SELECT t FROM Task t WHERE t.status = :t_status")
-                    .setParameter("t_status", status)
-                    .getResultList();
-        }
-        finally {
-            if (session != null) {
-                session.close();
-            }
-        }
-        return tasks;
-    }
-
     public List<Task> getTasks() {
         Session session = null;
         List<Task> tasks;
@@ -94,13 +57,6 @@ public class TaskRepository {
     }
 
     public boolean addTask(Task task){
-        if( !isTaskExistsById(task.getId()) ){
-            return addTaskExc(task);
-        }
-        return false;
-    }
-
-    private boolean addTaskExc(Task task){
         Session session = null;
         try {
             session = factory.getCurrentSession();

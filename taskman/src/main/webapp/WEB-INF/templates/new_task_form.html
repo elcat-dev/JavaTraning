@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Bark: add task</title>
+    <link href="../resources/css/app.css" rel="stylesheet">
+</head>
+<body>
+    <center><p>Bark - task manager</p></center>
+    <br>
+    <center>Add new task</center>
+    <br>
+    <center>
+    <form th:action="@{/tasks/creator}" th:object="${task}" method="POST">
+        <table>
+            <tr>
+                <th class="t_left">Name:</th>
+                <td>
+                    <input th:field="*{name}"/>
+                </td>
+            </tr>
+            <tr>
+                <th class="t_left">Owner:</th>
+                <td>
+                    <input th:field="*{owner}"/>
+                </td>
+            </tr>
+            <tr>
+                <th class="t_left">Executor:</th>
+                <td>
+                    <input th:field="*{executor}"/>
+                </td>
+            </tr>
+            <tr>
+                <th class="t_left">Description:</th>
+                <td>
+                    <input th:field="*{description}"/>
+                </td>
+            </tr>
+            <tr>
+                <td></td>
+                <td>
+                    <input type="submit"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br>
+    <a th:href="@{/}">go home</a>
+    </center>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Bark: tasks list</title>
+    <link href="../resources/css/app.css" rel="stylesheet">
+</head>
+<body>
+    <center><p>Bark - task manager</p></center>
+    <br>
+    <center>Tasks list</center>
+    <br>
+    <center>
+        <table>
+            <thead>
+            <tr>
+                <th class="t_center">ID</th>
+                <th class="t_center">Name</td>
+                <th class="t_center">Owner</td>
+                <th class="t_center">Executor</td>
+                <th class="t_center">Description</td>
+                <th class="t_center">Status</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="t : ${tasks}">
+                <td th:text="${t.id}"></td>
+                <td th:text="${t.name}"></td>
+                <td th:text="${t.owner}"></td>
+                <td th:text="${t.executor}"></td>
+                <td th:text="${t.description}"></td>
+                <td th:text="${t.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <a th:href="@{/}">go home</a>
+    </center>
+
+</body>
+</html>
