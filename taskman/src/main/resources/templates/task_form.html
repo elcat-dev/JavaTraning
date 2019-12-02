@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Bark: add task</title>
+    <link href="../css/app.css" rel="stylesheet" th:unless="${id}">
+    <link href="../../css/app.css" rel="stylesheet" th:if="${id}">
+</head>
+<body>
+    <center><p>Bark - task manager</p></center>
+    <br>
+    <center>Add new task</center>
+    <br>
+    <center>
+    <form th:action="@{/tasks/operation}" th:object="${task}" method="POST">
+        <input type="hidden" th:value="*{id}" name="id" th:if="${id}"/>
+        <table>
+            <tr>
+                <th class="t_left">Name:</th>
+                <td>
+                    <input th:field="*{name}"/>
+                </td>
+            </tr>
+            <tr>
+                <th class="t_left">Owner:</th>
+                <td>
+                    <input th:field="*{owner}"/>
+                </td>
+            </tr>
+            <tr>
+                <th class="t_left">Executor:</th>
+                <td>
+                    <input th:field="*{executor}"/>
+                </td>
+            </tr>
+            <tr th:if="${id}">
+                <th class="t_left">Status:</th>
+                <td>
+                    <select th:field="*{status}">
+                        <option th:each="st : ${pStstus}" th:value="${st}" th:text="${st}"/>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <th class="t_left" colspan="2">Description:</th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <textarea rows="10" cols="45" th:field="*{description}"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <input type="submit" value="create task" th:unless="${id}"/>
+                    <input type="submit" value="change task" th:if="${id}"/>
+                </td>
+            </tr>
+        </table>
+    </form>
+    <br>
+        <table>
+            <tr>
+                <td>
+                    <a th:href="@{/}">go home</a>
+                </td>
+                <td>
+                    <a th:href="@{/tasks/list}">Task list</a>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>

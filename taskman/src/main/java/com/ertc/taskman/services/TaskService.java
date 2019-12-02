@@ -5,7 +5,6 @@ import com.ertc.taskman.repositories.TaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.NoResultException;
 import java.util.List;
 
 @Service
@@ -17,33 +16,20 @@ public class TaskService {
         this.repository = repository;
     }
 
-    public void addTask(Task task){
-        repository.addTask(task);
+    public Long addTask(Task task){
+        return repository.addTask(task);
     }
 
-    public List<Task> getAllTasks(){
-        return repository.getTasks();
+    public List<Task> getTasks(Long id, String executor, Task.Status status){
+        return repository.getTasks(id, executor, status);
     }
 
     public void delTask(Long id){
-        boolean checkDel = repository.delTaskById(id);
-//        System.out.print("Task id = " + id + " ");
-//        if (!checkDel) {
-//            System.out.print("not ");
-//        }
-//        System.out.print("deleted");
+        repository.delTaskById(id);
     }
 
-    public void updTask(long id, String name, String executor, String description, Task.Status status){
-        try {
-            Task uTask = repository.getTasksById(id);
-            uTask.updTask(name, executor, description, status);
+    public void updTask(Task uTask) throws RuntimeException{
             repository.updTask(uTask);
-//            System.out.println("Task id = " + id + " updated");
-        }
-        catch (NoResultException e){
-            System.out.println(e.getMessage());
-        }
     }
 
 }

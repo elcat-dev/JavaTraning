@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>Bark: tasks list</title>
+    <link href="../css/app.css" rel="stylesheet">
+</head>
+<body>
+    <center><p>Bark - task manager</p></center>
+    <br>
+    <center>Tasks list</center>
+    <br>
+    <center>
+        <form th:action="@{/tasks/list}" th:object="${task}" method="POST">
+        <table>
+            <tr>
+                <th>Filters</th>
+                <td>Executor</td>
+                <td>
+                    <input th:field="*{executor}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="submit" value="add filter" />
+                </td>
+                <td>Status</td>
+                <td>
+                    <select th:field="*{status}">
+                        <option value=""></option>
+                        <option th:each="st : ${pStstus}" th:value="${st}" th:text="${st}"/>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        </form>
+        <br>
+        <table>
+            <thead>
+            <tr>
+                <th class="t_center">ID</th>
+                <th class="t_center">Name</td>
+                <th class="t_center">Owner</td>
+                <th class="t_center">Executor</td>
+                <th class="t_center">Status</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="t : ${tasks}">
+                <td><a th:href="@{'/tasks/info/' + ${t.id}}" th:text="${t.id}"/></td>
+                <td th:text="${t.name}"></td>
+                <td th:text="${t.owner}"></td>
+                <td th:text="${t.executor}"></td>
+                <td th:text="${t.status}"></td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+        <table>
+            <tr>
+                <td>
+                    <a th:href="@{/}">go home</a>
+                </td>
+                <td>
+                    <a th:href="@{/tasks/new}">Add new task</a>
+                </td>
+            </tr>
+        </table>
+    </center>
+
+</body>
+</html>
