@@ -18,7 +18,10 @@
                 <th>Filters</th>
                 <td>Executor</td>
                 <td>
-                    <input th:field="*{executor}">
+                    <select th:field="*{executor}">
+                        <option value=""></option>
+                        <option th:each="ex : ${pExecutors}" th:value="${ex.id}" th:text="${ex.name}"/>
+                    </select>
                 </td>
             </tr>
             <tr>
@@ -29,7 +32,7 @@
                 <td>
                     <select th:field="*{status}">
                         <option value=""></option>
-                        <option th:each="st : ${pStstus}" th:value="${st}" th:text="${st}"/>
+                        <option th:each="st : ${pStstus}" th:value="${st.statusId}" th:text="${st.statusName}"/>
                     </select>
                 </td>
             </tr>
@@ -50,9 +53,9 @@
             <tr th:each="t : ${tasks}">
                 <td><a th:href="@{'/tasks/info/' + ${t.id}}" th:text="${t.id}"/></td>
                 <td th:text="${t.name}"></td>
-                <td th:text="${t.owner}"></td>
-                <td th:text="${t.executor}"></td>
-                <td th:text="${t.status}"></td>
+                <td th:text="${t.owner.name}"></td>
+                <td th:text="${t.executor.name}"></td>
+                <td th:text="${t.status.statusName}"></td>
             </tr>
             </tbody>
         </table>

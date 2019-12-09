@@ -4,13 +4,14 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <title>Bark: add task</title>
-    <link href="../css/app.css" rel="stylesheet" th:unless="${id}">
-    <link href="../../css/app.css" rel="stylesheet" th:if="${id}">
+    <link href="../css/app.css" rel="stylesheet">
+    <link href="../../css/app.css" rel="stylesheet">
 </head>
 <body>
     <center><p>Bark - task manager</p></center>
     <br>
-    <center>Add new task</center>
+    <center th:unless="${id}">Add new task</center>
+    <center th:if="${id}">Change task</center>
     <br>
     <center>
     <form th:action="@{/tasks/operation}" th:object="${task}" method="POST">
@@ -19,26 +20,37 @@
             <tr>
                 <th class="t_left">Name:</th>
                 <td>
+                    <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}" />
                     <input th:field="*{name}"/>
                 </td>
             </tr>
             <tr>
                 <th class="t_left">Owner:</th>
                 <td>
-                    <input th:field="*{owner}"/>
+                    <div class="error" th:if="${#fields.hasErrors('owner')}" th:errors="*{owner}" />
+                    <select th:field="*{owner}">
+                        <option value="" th:unless="${id}"></option>
+                        <option th:each="own : ${pOwner}" th:value="${own.id}" th:text="${own.name}" th:unless="${id}"/>
+                        <option th:each="own : ${pOwner}" th:value="${own.id}" th:text="${own.name}" th:selected="${task.owner.id == own.id}" th:if="${id}"/>
+                    </select>
                 </td>
             </tr>
             <tr>
                 <th class="t_left">Executor:</th>
                 <td>
-                    <input th:field="*{executor}"/>
+                    <div class="error" th:if="${#fields.hasErrors('executor')}" th:errors="*{executor}" />
+                    <select th:field="*{executor}">
+                        <option value="" th:unless="${id}"></option>
+                        <option th:each="ex : ${pExecutors}" th:value="${ex.id}" th:text="${ex.name}" th:unless="${id}"/>
+                        <option th:each="ex : ${pExecutors}" th:value="${ex.id}" th:text="${ex.name}" th:selected="${task.executor.id == ex.id}" th:if="${id}"/>
+                    </select>
                 </td>
             </tr>
             <tr th:if="${id}">
                 <th class="t_left">Status:</th>
                 <td>
                     <select th:field="*{status}">
-                        <option th:each="st : ${pStstus}" th:value="${st}" th:text="${st}"/>
+                        <option th:each="st : ${pStstus}" th:value="${st.statusId}" th:text="${st.statusName}" th:selected="${task.status.statusId == st.statusId}"/>
                     </select>
                 </td>
             </tr>
@@ -47,6 +59,7 @@
             </tr>
             <tr>
                 <td colspan="2">
+                    <div class="error" th:if="${#fields.hasErrors('description')}" th:errors="*{description}" />
                     <textarea rows="10" cols="45" th:field="*{description}"/>
                 </td>
             </tr>

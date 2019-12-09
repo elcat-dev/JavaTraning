@@ -23,11 +23,15 @@
             </tr>
             <tr>
                 <th class="t_left">Owner:</th>
-                <td th:text="${task.owner}"></td>
+                <td th:text="${task.owner.name}"></td>
             </tr>
             <tr>
                 <th class="t_left">Executor:</th>
-                <td th:text="${task.executor}"></td>
+                <td th:text="${task.executor.name}"></td>
+            </tr>
+            <tr>
+                <th class="t_left">Status:</th>
+                <td th:text="${task.status.statusName}"></td>
             </tr>
             <tr>
                 <th class="t_left" colspan="2">Description:</th>

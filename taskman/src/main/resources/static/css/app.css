@@ -22,3 +22,7 @@ th, td {
 .t_center {
   text-align: center;
 }
+
+.error {
+  color:red
+}

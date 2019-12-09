@@ -1,8 +1,12 @@
 package com.ertc.taskman.services;
 
 import com.ertc.taskman.entities.Task;
+import com.ertc.taskman.entities.TaskStatus;
+import com.ertc.taskman.entities.User;
 import com.ertc.taskman.repositories.TaskRepository;
+import com.ertc.taskman.repositories.specifications.TaskSpecifications;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,20 +20,26 @@ public class TaskService {
         this.repository = repository;
     }
 
-    public Long addTask(Task task){
-        return repository.addTask(task);
+    public Long saveTask(Task task){
+        return repository.save(task).getId();
     }
 
-    public List<Task> getTasks(Long id, String executor, Task.Status status){
-        return repository.getTasks(id, executor, status);
+    public List<Task> getTasks(Long id, User executor, TaskStatus status){
+        Specification<Task> spec = Specification.where(null);
+        if (id != null) {
+            spec = spec.and(TaskSpecifications.idIs(id));
+        }
+        if (executor != null) {
+            spec = spec.or(TaskSpecifications.executorIs(executor.getId()));
+        }
+        if (status != null) {
+            spec = spec.or(TaskSpecifications.statusIs(status.getStatusId()));
+        }
+        return repository.findAll(spec);
     }
 
     public void delTask(Long id){
-        repository.delTaskById(id);
-    }
-
-    public void updTask(Task uTask) throws RuntimeException{
-            repository.updTask(uTask);
+        repository.deleteById(id);
     }
 
 }
