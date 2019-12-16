@@ -1,4 +1,4 @@
-package com.ertc.taskman.controllers;
+package com.ertc.taskmangwt.server.controllers;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
