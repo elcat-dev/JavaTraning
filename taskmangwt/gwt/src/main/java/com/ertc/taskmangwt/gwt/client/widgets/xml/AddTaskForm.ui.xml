@@ -1,0 +1,30 @@
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+             xmlns:g='urn:import:com.google.gwt.user.client.ui'>
+
+    <g:DecoratorPanel>
+        <g:FormPanel ui:field="form" method="POST">
+            <g:VerticalPanel spacing="10">
+                <g:HorizontalPanel>
+                    <g:Label text="Name" width="100px"/>
+                    <g:TextBox ui:field="name"/>
+                </g:HorizontalPanel>
+                <g:HorizontalPanel>
+                    <g:Label text="Owner:" width="100px"/>
+                    <g:ListBox ui:field="owner"/>
+                </g:HorizontalPanel>
+                <g:HorizontalPanel>
+                    <g:Label text="Executor:" width="100px"/>
+                    <g:ListBox ui:field="executor"/>
+                </g:HorizontalPanel>
+                <g:HorizontalPanel>
+                    <g:Label text="Description:" width="100px"/>
+                    <g:TextArea ui:field="description"/>
+                </g:HorizontalPanel>
+                <g:HorizontalPanel>
+                    <g:Button ui:field="btnSubmit">Create</g:Button>
+                    <g:Button ui:field="btnCnl">Cancel</g:Button>
+                </g:HorizontalPanel>
+            </g:VerticalPanel>
+        </g:FormPanel>
+    </g:DecoratorPanel>
+</ui:UiBinder>

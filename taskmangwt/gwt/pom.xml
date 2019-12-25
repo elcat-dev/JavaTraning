@@ -103,11 +103,11 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <moduleName>com.geekbrains.gwt.WebApp</moduleName>
+                    <moduleName>com.ertc.taskmangwt.gwt.WebApp</moduleName>
                     <moduleShortName>WebApp</moduleShortName>
                     <failOnError>true</failOnError>
                     <!-- GWT compiler 2.8 requires 1.8, hence define sourceLevel here if you use
-                         a different source language for java compilation -->
+                         a different source language for java compilation -->No source code is available for type
                     <sourceLevel>1.8</sourceLevel>
                     <!-- Compiler configuration -->
                     <compilerArgs>
